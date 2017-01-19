@@ -1,0 +1,14 @@
+Requirements
+1. Provide the team ID and the season, with that information get all official matches (league and cup).
+Cup: <td><img src="/Img/icons/transparent.gif" alt="Copa Chile" title="Copa Chile" class="matchCupA" /></td>
+League: <td><img src="/Img/icons/transparent.gif" alt="Liga" title="Liga" class="matchLeague" /></td>
+
+
+Requerimientos:
+http://www.hattrick.org/Club/Matches/Archive.aspx?season=63&TeamID=973229
+<table class="indent">
+<tr>
+  <td><span class="date">02-10-2016</span></td>
+  <td><img src="/Img/icons/transparent.gif" alt="Liga" title="Liga" class="matchLeague" /></td>
+  <td><a href="/Club/Matches/Match.aspx?matchID=594719913 ...</a></td>
+</tr>
