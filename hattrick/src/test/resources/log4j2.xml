@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="60">
+  <Properties>
+    <Property name="log-path">logs</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console-Appender" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+    </Console>
+    <File name="File-Appender" fileName="${log-path}/Hattrick-Dev.log" >
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+    </File>
+    <RollingFile name="RollingFile-Appender"
+                 fileName="${log-path}/.rollingfile.log"
+                 filePattern="${log-path}/Hattrick-Dev-%d{yyyy-MM-dd-hh-mm}.log.gz">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Logger name="cl.fatman.hattrick" level="debug" additivity="false">
+      <AppenderRef ref="File-Appender" level="debug"/>
+      <AppenderRef ref="RollingFile-Appender" level="debug"/>
+      <AppenderRef ref="Console-Appender" level="debug"/>
+    </Logger>
+    <Root level="debug">
+      <AppenderRef ref="Console-Appender"/>
+    </Root>
+  </Loggers>
+</Configuration>
