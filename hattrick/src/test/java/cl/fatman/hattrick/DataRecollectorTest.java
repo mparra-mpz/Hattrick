@@ -8,17 +8,12 @@ import java.util.List;
 import cl.fatman.hattrick.DataRecollector;
 
 public class DataRecollectorTest {
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
 	
 	@Test
 	public void getMatchesTest() {
-		String url = "";
-		String userAgent = "";
-		String query = "";
+		String url = "http://www.hattrick.org";
+		String userAgent = "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.108 Safari/537.36";
+		String query = "/Club/Matches/Archive.aspx?season=63&TeamID=973229";
 		List<String> matches;
 		DataRecollector recollector = new DataRecollector(url, userAgent);
 		matches = recollector.getMatches(query);
