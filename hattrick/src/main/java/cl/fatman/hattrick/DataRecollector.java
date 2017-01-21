@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cl.fatman.hattrick.Match;
+
 public class DataRecollector {
 	
 	private String url;
@@ -40,12 +42,12 @@ public class DataRecollector {
 		this.userAgent = userAgent;
 	}
 	
-	public List<String> getMatches(String query) {
+	public List<Match> getMatches(String query) {
 		logger.debug("getMatches(String query)");
 		String urlQuery = this.url + query;
 		logger.debug("URL: " + urlQuery);
 		logger.debug("User agent: " + this.userAgent);
-		List<String> matches = new ArrayList<String>();
+		List<Match> matches = new ArrayList<Match>();
 		try {
 			logger.debug("Start processing hattrick matches.");
 			Document document = Jsoup.connect(urlQuery)
@@ -54,19 +56,21 @@ public class DataRecollector {
 					.maxBodySize(0)
 					.timeout(10000)
 					.get();
-			logger.debug("Get matches table.");
 			Elements rows = document.select("table[class=indent]").select("tr");
 			for (Element row : rows) {
-				logger.debug("Get match row.");
 				Elements cols = row.select("td");
-				String matchClass = cols.get(1).select("img").get(0).attr("class");
-				logger.debug("Got match class: " + matchClass);
-				if (matchClass.equals("matchLeague") || matchClass.equals("matchCupA")
-						|| matchClass.equals("matchQualification")) {
+				String matchDate = cols.get(0).select("span").get(0).text();
+				String matchType = cols.get(1).select("img").get(0).attr("class");
+				
+				if (matchType.equals("matchLeague") || matchType.equals("matchCupA")
+						|| matchType.equals("matchQualification")) {
 					String aux = cols.get(2).select("a").get(0).attr("href");
 					String matchID = aux.substring(aux.indexOf("=")+1, aux.indexOf("&"));
 					logger.debug("Got match id: " + matchID);
-					matches.add(matchID);
+					logger.debug("Got match date: " + matchDate);
+					logger.debug("Got match type: " + matchType);
+					Match match  = new  Match(matchID, matchDate, matchType);
+					matches.add(match);
 				}
 			}
 			logger.debug("Return " + matches.size() + " matches.");
