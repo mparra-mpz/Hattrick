@@ -12,3 +12,49 @@ http://www.hattrick.org/Club/Matches/Archive.aspx?season=63&TeamID=973229
   <td><img src="/Img/icons/transparent.gif" alt="Liga" title="Liga" class="matchLeague" /></td>
   <td><a href="/Club/Matches/Match.aspx?matchID=594719913 ...</a></td>
 </tr>
+
+Estadísticas en HatStats.
+HatStats = (3 * Midfield rating) + Attack rating + Defence Rating
+http://www.hattrick.org/Club/Matches/Match.aspx?matchID=597572765
+Partido
+- ID
+- Fecha
+- Tipo
+- Condición
+- TLI Defensivo
+- TLI Ofensivo
+- Mediocampo
+- Defensa Derecha
+- Defensa Central
+- Defensa Izquierda
+- Ataque Derecho
+- Ataque Central
+- Ataque Izquierdo
+- HatStats
+
+<div class="teamMatchRatingsTable">
+  <table >
+    <tr>
+      <td class="ch">Midfield</td>
+      <td class="teamNumberRatings" style="width:35%">53</td>
+      <td class="teamNumberRatings" style="width:35%">51</td>
+    </tr>
+    
+      <td class="ch">Right defence</td>
+      <td class="ch">Central defence</td>
+      <td class="ch">Left defence</td>
+      <td class="ch">Right attack</td>
+      <td class="ch">Central attack</td>
+      <td class="ch">Left attack</td>
+      
+      <td><b>Defence</b></td>
+      <td class="teamNumberRatings">46</td>
+      <td class="teamNumberRatings">46</td>
+      
+      <td><b>Attack</b></td>
+      <td class="teamNumberRatings">37</td>
+      <td class="teamNumberRatings">44</td>
+      
+      
+        
+        
