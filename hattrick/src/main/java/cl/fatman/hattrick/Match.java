@@ -15,12 +15,14 @@ public class Match {
 	private int rightOffensive;
 	private int centralOffensive;
 	private int leftOffensive;
+	private int hatStats;
 	
 	public Match(String id, String date, String type) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.type = type;
+		this.hatStats = 0;
 	}
 
 	public String getId() {
@@ -125,5 +127,13 @@ public class Match {
 
 	public void setLeftOffensive(int leftOffensive) {
 		this.leftOffensive = leftOffensive;
+	}
+	
+	public int getHatStats() {
+		if (this.hatStats == 0)
+			this.hatStats = (3 * this.midfield)
+			+ this.rightDefense + this.centralDefense + this.leftDefense
+			+ this.rightOffensive + this.centralOffensive + this.leftOffensive;
+		return this.hatStats;
 	}
 }
