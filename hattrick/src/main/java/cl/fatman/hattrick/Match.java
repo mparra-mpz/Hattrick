@@ -6,6 +6,9 @@ public class Match {
 	private String date;
 	private String type;
 	private String condition;
+	private String formation;
+	private String tactics;
+	private String style;
 	private int defensiveIFK;
 	private int offensiveIFK;
 	private int midfield;
@@ -56,7 +59,31 @@ public class Match {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
+	
+	public String getFormation() {
+		return formation;
+	}
 
+	public void setFormation(String formation) {
+		this.formation = formation;
+	}
+
+	public String getTactics() {
+		return tactics;
+	}
+
+	public void setTactics(String tactics) {
+		this.tactics = tactics;
+	}
+	
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
+	
 	public int getDefensiveIFK() {
 		return defensiveIFK;
 	}

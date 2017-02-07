@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cl.fatman.hattrick.Match;
 
@@ -100,9 +102,7 @@ public class DataRecollector {
 					.maxBodySize(0)
 					.timeout(10000)
 					.get();
-			Elements aElement = document.select("a[class=hometeam notByLine]");
-			String aux = aElement.get(0).attr("href");
-			String home = aux.substring(aux.indexOf("=")+1, aux.indexOf("&"));
+			String home = this.getHomeTeamId(document);
 			logger.debug("Home team ID: " + home);
 			int index = -1;
 			if (teamId.equals(home)) {
@@ -115,20 +115,26 @@ public class DataRecollector {
 			logger.debug("Team " + teamId + " played like: " + match.getCondition());
 			Elements ratingsTable = document.select("div[class=teamMatchRatingsTable]")
 					.select("table");
-			match.setMidfield(getRating(ratingsTable, 1, index ));
-			match.setRightDefense(getRating(ratingsTable, 2, index ));
-			match.setCentralDefense(getRating(ratingsTable, 3, index ));
-			match.setLeftDefense(getRating(ratingsTable, 4, index ));
-			match.setRightOffensive(getRating(ratingsTable, 5, index ));
-			match.setCentralOffensive(getRating(ratingsTable, 6, index ));
-			match.setLeftOffensive(getRating(ratingsTable, 7, index ));
-			match.setDefensiveIFK(getRating(ratingsTable, 10, index ));
-			match.setOffensiveIFK(getRating(ratingsTable, 11, index ));
+			match.setFormation(this.getFormation(document, index));
+			match.setMidfield(this.getRating(ratingsTable, 1, index ));
+			match.setRightDefense(this.getRating(ratingsTable, 2, index ));
+			match.setCentralDefense(this.getRating(ratingsTable, 3, index ));
+			match.setLeftDefense(this.getRating(ratingsTable, 4, index ));
+			match.setRightOffensive(this.getRating(ratingsTable, 5, index ));
+			match.setCentralOffensive(this.getRating(ratingsTable, 6, index ));
+			match.setLeftOffensive(this.getRating(ratingsTable, 7, index ));
+			match.setDefensiveIFK(this.getRating(ratingsTable, 10, index ));
+			match.setOffensiveIFK(this.getRating(ratingsTable, 11, index ));
+			match.setTactics(this.getTacticStyle(ratingsTable, 14, index ));
+			match.setStyle(this.getTacticStyle(ratingsTable, 16, index ));
 			logger.info("========== MATCH INFO ==========");
 			logger.info("ID: " + match.getId());
 			logger.info("Date: " + match.getDate());
 			logger.info("Type: " + match.getType());
 			logger.info("Condition: " + match.getCondition());
+			logger.info("Formation: " + match.getFormation());
+			logger.info("Tactics: " + match.getTactics());
+			logger.info("Style: " + match.getStyle());
 			logger.info("Defensive IFK: " + match.getDefensiveIFK()
 			+ " -- Ofensive IFK: " + match.getOffensiveIFK());
 			logger.info("Right Defense: " + match.getRightDefense()
@@ -149,10 +155,44 @@ public class DataRecollector {
 		return match;
 	}
 	
+	private String getHomeTeamId(Document document) {
+		logger.debug("getHomeTeamId(Document document)");
+		Elements aElement = document.select("a[class=hometeam notByLine]");
+		String aux = aElement.get(0).attr("href");
+		String home = aux.substring(aux.indexOf("=")+1, aux.indexOf("&"));
+		return home;
+	}
+	
+	private String getFormation(Document document, int index) {
+		logger.debug("getFormation(Document document)");
+		Elements spanElement = document.select("span[class=matchevent]");
+		String aux = spanElement.text();
+		logger.debug(aux);
+		Pattern pattern = Pattern.compile("\\d-\\d-\\d");
+		Matcher matcher = pattern.matcher(aux);
+		List<String> formations = new ArrayList<String>();
+		while (matcher.find())
+			formations.add(matcher.group().replace("-", " - "));
+		if (formations.size() < 2)
+			index = 0;
+		logger.debug("Formation: " + formations.get(index));
+		return formations.get(index);
+	}
+	
+	private String getTacticStyle(Elements ratingsTable, int position, int index ) {
+		logger.debug("getTacticStyle(Elements ratingsTable, int position, int index )");
+		Element tacticStyleElement = ratingsTable.select("tr").get(position);
+		String tacticStyle = tacticStyleElement.select("td:not([class])")
+				.get(index)
+				.text();
+		logger.debug("Value: "+ tacticStyle);
+		return tacticStyle;
+	}
+	
 	private int getRating(Elements ratingsTable, int position, int index ) {
 		logger.debug("getRating(Elements ratingTable, int position, int index )");
-		Element midfieldElement = ratingsTable.select("tr").get(position);
-		int value = Integer.parseInt(midfieldElement.select("td[class=teamNumberRatings]")
+		Element ratingElement = ratingsTable.select("tr").get(position);
+		int value = Integer.parseInt(ratingElement.select("td[class=teamNumberRatings]")
 				.get(index)
 				.text());
 		logger.debug("Value: "+ value);
