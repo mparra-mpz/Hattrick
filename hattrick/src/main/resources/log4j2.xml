@@ -11,7 +11,7 @@
       <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
     </File>
     <RollingFile name="RollingFile-Appender"
-                 fileName="${log-path}/.rollingfile.log"
+                 fileName="${log-path}/.Hattrick-Rolling.log"
                  filePattern="${log-path}/Hattrick-%d{yyyy-MM-dd-hh-mm}.log.gz">
       <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
       <Policies>
